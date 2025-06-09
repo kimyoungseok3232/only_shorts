@@ -1,0 +1,23 @@
+  {
+    "manifest_version": 3,
+    "name": "only_shorts",
+    "version": "1.0",
+    "description": "유튜브 Shorts에서 영상을 가리는 불필요한 요소를 제거합니다.",
+    "permissions": ["scripting", "tabs"],
+    "host_permissions": ["*://www.youtube.com/shorts/*"],
+    "content_scripts": [
+      {
+        "matches": ["*://www.youtube.com/shorts/*"],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+      }
+    }
+  }
