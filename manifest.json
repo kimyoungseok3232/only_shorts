@@ -6,7 +6,7 @@
     "permissions": ["scripting", "storage"],
     "content_scripts": [
       {
-        "matches": ["*://www.youtube.com/shorts/*"],
+        "matches": ["*://www.youtube.com/*"],
         "js": ["content.js"],
         "run_at": "document_idle"
       }
