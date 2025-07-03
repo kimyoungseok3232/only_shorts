@@ -3,11 +3,12 @@
     "name": "only_shorts",
     "version": "1.0",
     "description": "유튜브 Shorts에서 영상을 가리는 불필요한 요소를 제거합니다.",
-    "permissions": ["scripting", "storage"],
+    "permissions": ["storage"],
     "content_scripts": [
       {
         "matches": ["*://www.youtube.com/*"],
         "js": ["content.js"],
+        "css": ["styles.css"],
         "run_at": "document_idle"
       }
     ],

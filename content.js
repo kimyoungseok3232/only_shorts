@@ -1,47 +1,24 @@
-function removeMetapanelItems() {
-  const items = document.querySelectorAll("div.ytReelMetapanelViewModelMetapanelItem");
-  items.forEach(item => item.remove());
+// 설명 보이기/숨기기 상태를 전환하는 함수
+function toggleDescriptionsVisibility(hide) {
+  const className = 'hide-yt-descriptions';
+  if (hide) {
+    document.body.classList.add(className);
+  } else {
+    document.body.classList.remove(className);
+  }
 }
 
-let isFeatureEnabled = true; // 기본값은 기능을 켜두는 것으로 설정
-
+// 팝업(popup.js)에서 보내는 메시지를 수신
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "toggleDescriptions") {
-    isFeatureEnabled = request.state;
-    console.log("Feature enabled state received in content.js:", isFeatureEnabled);
-    if (isFeatureEnabled) {
-      // 기능이 켜져 있을 때 바로 실행
-      removeMetapanelItems();
-      // Observer 재시작 (만약 이전에 비활성화되어 있었다면)
-      observer.observe(document.body, { childList: true, subtree: true });
-    } else {
-      // 기능이 꺼져 있을 때 Observer 중지
-      observer.disconnect();
-    }
+    toggleDescriptionsVisibility(request.state);
   }
 });
 
-if (isFeatureEnabled) {
-  removeMetapanelItems();
-}
-
-
-const observer = new MutationObserver(() => {
-  if (isFeatureEnabled) {
-    removeMetapanelItems();
-  }
-});
-
-observer.observe(document.body, { childList: true, subtree: true });
-
+// 페이지 로드 시 저장된 값으로 초기 상태 설정
 chrome.storage.sync.get('hideDescriptions', function (data) {
-    if (typeof data.hideDescriptions !== 'undefined') {
-        isFeatureEnabled = data.hideDescriptions;
-        if (isFeatureEnabled) {
-            removeMetapanelItems();
-            observer.observe(document.body, { childList: true, subtree: true });
-        } else {
-            observer.disconnect();
-        }
-    }
+  // 저장된 값이 true일 경우에만 숨김 처리
+  if (data.hideDescriptions === true) {
+    toggleDescriptionsVisibility(true);
+  }
 });

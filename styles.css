@@ -1,0 +1,3 @@
+body.hide-yt-descriptions div.ytReelMetapanelViewModelMetapanelItem {
+    display: none !important;
+  }
