@@ -2,9 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const toggleSwitch = document.getElementById('toggleSwitch');
 
     chrome.storage.sync.get('hideDescriptions', function (data) {
-        if (typeof data.hideDescriptions !== 'undefined') {
-            toggleSwitch.checked = data.hideDescriptions;
-        }
+        toggleSwitch.checked = data.hideDescriptions === true;
     });
 
     toggleSwitch.addEventListener('change', function () {
